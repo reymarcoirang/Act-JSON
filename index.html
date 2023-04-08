@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="style.css" rel="stylesheet" id="bootstrap-css">
+    <title>Shoes Cart</title>
+</head>
+<body>    
+     
+
+    <div id="demo"></div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js" integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                const myObj = JSON.parse(this.responseText);
+                createPage(myObj);
+            }
+        };
+        xmlhttp.open("GET", "http://act-json.test/", true);
+        xmlhttp.send();
+        
+        
+        function createPage(json) {
+            var i, j, k, txt;
+            
+            txt='';
+            
+            var bgcolor = "bg-light";
+            var textcolor = "text-dark";
+            for (i = 0; i < json.shoe.length; i++) {
+                for (j = 0; j < json.shoe[i].models.length; j++) {
+                
+                txt += 
+                `
+                <div class="space-medium ${bgcolor} ${textcolor}" style="height: 100vh">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
+                                <div class="feature-block-v7 feature-block">
+                                    <div class="feature-icon text-brand bg-brand-light">
+                                        <img style="width: 5vw;" src="img/${json.shoe[i].logo}" alt="${json.shoe[i].brand}">
+                                    </div>
+                                    <div class="feature-content">
+                                        <h2 class="${textcolor}">${json.shoe[i].brand}</h2>
+                                        <p class="lead">${json.shoe[i].models[j].model} </p>
+                                        <hr class="m-t-30 m-b-30">
+                                        <p>Size: ${json.shoe[i].models[j].size}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="offset-xl-1 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                                <div class="circle-1 mt-5"></div>
+                                <div class="feature-app-img mt-5">
+                                    <img class="w-50" src="img/${json.shoe[i].models[j].img}" alt="${json.shoe[i].models[j].model}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+                document.getElementById("demo").innerHTML = txt;
+
+                if(bgcolor =="bg-light" && textcolor =="text-dark"){
+                    bgcolor = "bg-dark";
+                    textcolor ="text-light"
+                } 
+                else{
+                    bgcolor = "bg-light";
+                    textcolor ="text-dark"
+                }
+            }
+            }
+        }
+    </script>
+</body>
+</html>
